@@ -2,15 +2,18 @@ import os
 from bs4 import BeautifulSoup
 import csv
 import re
-import concurrent.futures
 from multiprocessing import Pool
 import glob
 
 def mp_handler():
 
+    csv_file = open('output.csv', 'w+')
+    csv_writer = csv.writer(csv_file, delimiter='|')
+    csv_writer.writerow(['article_id', 'text', 'eurovoc_label'])
+
     p = Pool()
     files = glob.glob('*.html')
-    with open('output.csv', 'w+', encoding='utf8') as f:
+    with open('output.csv', 'a+', encoding='utf8') as f:
         for result in p.imap(process_file, files):
             f.write('{}.\n' .format(result))
 
@@ -42,14 +45,12 @@ def process_file(file):
 
 if __name__ == '__main__':
 
-    HTML_folder = 'C:/Users/Ismail/Desktop/OVGU/DKE Subjects/Machine Learning 2/Project/sample/'
-    # HTML_folder = 'C:/Users/Ismail/Desktop/OVGU/DKE Subjects/Machine Learning 2/Project/HTML files/'
+    HTML_folder = 'C:/Users/Ismail/Desktop/OVGU/DKE Subjects/Machine Learning 2/Project/sample1/'
+    #HTML_folder = 'C:/Users/Ismail/Desktop/OVGU/DKE Subjects/Machine Learning 2/Project/HTML files/'
     os.chdir(HTML_folder)
 
-    csv_file = open('output.csv', 'w+')
-    csv_writer = csv.writer(csv_file, delimiter='|')
-    csv_writer.writerow(['article_id', 'text', 'eurovoc_label'])
-    csv_file.close()
+
+    #csv_file.close()
     mp_handler()
 
 
