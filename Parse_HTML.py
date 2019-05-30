@@ -13,7 +13,7 @@ def mp_handler():
     csv_writer = csv.writer(csv_file, delimiter='|', lineterminator = '\n')
     csv_writer.writerow(['article_id', 'text', 'eurovoc_label'])
 
-    p = Pool(3)
+    p = Pool()
     files = glob.glob('*.html')
     with open('output.csv', 'a+', encoding='utf8') as f:
         for result in p.imap(process_file, files):
